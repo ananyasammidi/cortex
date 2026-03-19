@@ -6,11 +6,11 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-
 app.post('/api/generate', async (req, res) => {
   const { workflow } = req.body;
   if (!workflow) return res.status(400).json({ error: 'workflow is required' });
+
+  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
   try {
     const message = await client.messages.create({
